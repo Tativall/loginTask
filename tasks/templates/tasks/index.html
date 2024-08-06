@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block main %}
+<h1>Página de Lista de Tareas</h1>
+<table>
+  <tr>
+    <th>Título</th>
+    <th>Contenido</th>
+    <th colspan="3"></th>
+  </tr>
+  {% for task in tasks %}
+  <tr>
+    <td>{{ task.title }}</td>
+    <td>{{ task.content }}</td>
+    <td><a href="{% url 'tasks:detail' task.id %}">Detalles</a></td>
+    <td><a href="{% url 'tasks:edit' task.id %}">Editar</a></td>
+    <td><a href="{% url 'tasks:delete' task.id %}">Eliminar</a></td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br />
+
+<a href="{% url 'tasks:create' %}">Crear Nueva</a>
+
+{% endblock %}
