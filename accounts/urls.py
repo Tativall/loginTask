@@ -1,13 +1,11 @@
 from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import views as auth_views
 from . import views
-from django.views.generic.base import RedirectView
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='login/', permanent=False), name='index'),
+    path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', views.UserCreateAndLoginView.as_view(), name='signup'),
-    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('user_detail/<int:pk>/', views.UserDetail.as_view(), name='user_detail'),
     path('user_update/<int:pk>/', views.UserUpdate.as_view(), name='user_update'),
     path('password_change/', views.PasswordChange.as_view(), name='password_change'),
