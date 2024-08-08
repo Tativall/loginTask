@@ -1,11 +1,11 @@
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.mixins import UserPassesTestMixin
 from .forms import CustomUserCreationForm, UserUpdateForm
 from django.contrib.auth import get_user_model
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
-from django.contrib.auth.mixins import UserPassesTestMixin
 
 User = get_user_model()
 
@@ -26,6 +26,9 @@ class UserCreateAndLoginView(CreateView):
         user = authenticate(email=email, password=raw_pw)
         login(self.request, user)
         return redirect(reverse('user_detail', kwargs={'pk': user.pk}))
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
 
 class UserDetail(DetailView):
     model = User
